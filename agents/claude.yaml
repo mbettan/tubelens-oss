@@ -1,0 +1,47 @@
+# TubeLens OSS — Claude Desktop MCP Configuration
+#
+# Add this to your Claude Desktop config at:
+#   macOS: ~/Library/Application Support/Claude/claude_desktop_config.json
+#   Windows: %APPDATA%\Claude\claude_desktop_config.json
+#
+# Example configuration:
+#
+# {
+#   "mcpServers": {
+#     "tubelens": {
+#       "command": "uv",
+#       "args": ["run", "python", "-m", "src.server"],
+#       "cwd": "/path/to/tubelens-oss",
+#       "env": {
+#         "GOOGLE_CLOUD_PROJECT": "your-project-id",
+#         "YOUTUBE_API_KEY": "your-youtube-api-key",
+#         "AUTH_MODE": "none"
+#       }
+#     }
+#   }
+# }
+#
+# For remote deployment (Cloud Run):
+#
+# {
+#   "mcpServers": {
+#     "tubelens": {
+#       "url": "https://your-cloud-run-url.run.app/mcp",
+#       "headers": {
+#         "Authorization": "Bearer YOUR_API_KEY"
+#       }
+#     }
+#   }
+# }
+#
+# Available Tools (10):
+# - youtube_extract_recommendations (structured decisions, stance, conviction, risks, alternatives)
+# - youtube_extract_claims (verifiable claims vs opinions with verification guidance)
+# - youtube_evaluate_fit (personalized relevance score 0-100 & custom action items)
+# - youtube_compare_videos (cross-video consensus & disagreement matrix with root causes)
+# - youtube_ask_video (ephemeral deep Q&A with citations — no raw transcripts)
+# - youtube_analyze_video (summary, topics, excerpts, index)
+# - youtube_resolve_channel
+# - youtube_list_channel_videos
+# - youtube_list_playlist_videos
+# - youtube_get_videos

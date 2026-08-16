@@ -1,0 +1,61 @@
+steps:
+  # 1. Build container image
+  - name: 'gcr.io/cloud-builders/docker'
+    args:
+      - 'build'
+      - '--no-cache'
+      - '-t'
+      - '${_REGION}-docker.pkg.dev/${PROJECT_ID}/mcp-servers/tubelens:${BUILD_ID}'
+      - '-t'
+      - '${_REGION}-docker.pkg.dev/${PROJECT_ID}/mcp-servers/tubelens:latest'
+      - '.'
+
+  # 2. Push container image to Artifact Registry
+  - name: 'gcr.io/cloud-builders/docker'
+    args:
+      - 'push'
+      - '--all-tags'
+      - '${_REGION}-docker.pkg.dev/${PROJECT_ID}/mcp-servers/tubelens'
+
+  # 3. Deploy to Google Cloud Run
+  - name: 'gcr.io/google.com/cloudsdktool/cloud-sdk'
+    entrypoint: gcloud
+    args:
+      - 'run'
+      - 'deploy'
+      - '${_SERVICE_NAME}'
+      - '--image'
+      - '${_REGION}-docker.pkg.dev/${PROJECT_ID}/mcp-servers/tubelens:${BUILD_ID}'
+      - '--region'
+      - '${_REGION}'
+      - '--service-account=youtube-mcp-runner@${PROJECT_ID}.iam.gserviceaccount.com'
+      - '--allow-unauthenticated'
+      - '--memory'
+      - '2Gi'
+      - '--cpu'
+      - '2'
+      - '--concurrency'
+      - '80'
+      - '--timeout'
+      - '300s'
+      - '--min-instances'
+      - '1'
+      - '--session-affinity'
+      - '--max-instances'
+      - '1'
+      - '--set-env-vars'
+      - 'GOOGLE_CLOUD_PROJECT=${PROJECT_ID},GOOGLE_CLOUD_LOCATION=global,GEMINI_PRIMARY_MODEL=gemini-3.7-flash,AUTH_MODE=api_key'
+      - '--set-secrets'
+      - 'YOUTUBE_API_KEY=youtube-api-key:latest,MCP_API_KEY=mcp-api-key:latest'
+
+substitutions:
+  _REGION: 'us-central1'
+  _SERVICE_NAME: 'youtube-research-mcp'
+
+images:
+  - '${_REGION}-docker.pkg.dev/${PROJECT_ID}/mcp-servers/tubelens:${BUILD_ID}'
+  - '${_REGION}-docker.pkg.dev/${PROJECT_ID}/mcp-servers/tubelens:latest'
+
+
+options:
+  logging: CLOUD_LOGGING_ONLY

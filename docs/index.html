@@ -1,0 +1,599 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+  
+  <!-- Primary Meta Tags -->
+  <title>TubeLens OSS — Open-Source AI Video Intelligence & YouTube Research MCP Server</title>
+  <meta name="title" content="TubeLens OSS — Open-Source AI Video Intelligence & YouTube Research MCP Server">
+  <meta name="description" content="Open-source FastMCP server connecting AI agents to YouTube video understanding via Google Gemini with zero local downloads, live data fetching, and timestamped citations.">
+  <meta name="keywords" content="TubeLens, MCP Server, Model Context Protocol, FastMCP, Google Gemini, YouTube Research, AI Agents, Video Understanding, Claude Desktop, Antigravity, Zero Downloads">
+  <meta name="author" content="TubeLens Contributors">
+  <meta name="robots" content="index, follow, max-image-preview:large, max-snippet:-1, max-video-preview:-1">
+  <link rel="canonical" href="https://mbettan.github.io/tubelens-oss/">
+  
+  <!-- Alternate Formats & LLM Agent Discovery -->
+  <link rel="alternate" type="text/plain" href="llms.txt" title="LLM Agent Summary Documentation">
+  <link rel="alternate" type="text/plain" href="llms-full.txt" title="LLM Full Technical Documentation">
+  <link rel="sitemap" type="application/xml" href="sitemap.xml" title="Sitemap">
+
+  <!-- Favicon & Icons (Inline SVG Data URI + Cache Busted) -->
+  <link rel="icon" type="image/svg+xml" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 64 64'%3E%3Crect width='64' height='64' rx='16' fill='%230c0406' stroke='%23ff1744' stroke-width='2'/%3E%3Ccircle cx='32' cy='32' r='22' fill='none' stroke='%23ff1744' stroke-width='3' stroke-dasharray='14 4 4 4'/%3E%3Ccircle cx='32' cy='32' r='14' fill='none' stroke='%23f43f5e' stroke-width='2'/%3E%3Cpolygon points='26%2C22 42%2C32 26%2C42' fill='%23ff1744'/%3E%3Cpath d='M32 6v6M32 52v6M6 32h6M52 32h6' stroke='%23fb7185' stroke-width='2' stroke-linecap='round'/%3E%3C/svg%3E">
+  <link rel="icon" type="image/svg+xml" href="favicon.svg?v=5">
+  <link rel="icon" type="image/png" sizes="32x32" href="favicon-32x32.png?v=5">
+  <link rel="apple-touch-icon" sizes="180x180" href="apple-touch-icon.png?v=5">
+  <link rel="shortcut icon" href="favicon.ico?v=5">
+
+  <!-- Mobile & Browser Theming -->
+  <meta name="color-scheme" content="dark">
+  <meta name="theme-color" content="#0a0d14">
+  <meta name="mobile-web-app-capable" content="yes">
+  <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+  <meta name="apple-mobile-web-app-title" content="TubeLens OSS">
+
+  <!-- Open Graph / Facebook -->
+  <meta property="og:type" content="website">
+  <meta property="og:url" content="https://mbettan.github.io/tubelens-oss/">
+  <meta property="og:title" content="TubeLens OSS — AI Video Intelligence & Research MCP Server">
+  <meta property="og:description" content="Turn unstructured YouTube videos into queryable, comparable, verifiable knowledge objects for AI agents with zero local media downloads.">
+  <meta property="og:site_name" content="TubeLens OSS">
+  <meta property="og:locale" content="en_US">
+  <meta property="og:image" content="https://mbettan.github.io/tubelens-oss/assets/og-image.png">
+
+  <!-- Twitter Card -->
+  <meta name="twitter:card" content="summary_large_image">
+  <meta name="twitter:url" content="https://mbettan.github.io/tubelens-oss/">
+  <meta name="twitter:title" content="TubeLens OSS — AI Video Intelligence & YouTube Research MCP Server">
+  <meta name="twitter:description" content="Connect Claude, Gemini, and AI Agents directly to YouTube video understanding with native Gemini processing and timestamped citations.">
+  <meta name="twitter:image" content="https://mbettan.github.io/tubelens-oss/assets/og-image.png">
+
+  <link rel="stylesheet" href="style.css">
+
+  <!-- Schema.org JSON-LD Structured Data for Google Search & Rich Results -->
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@graph": [
+      {
+        "@type": "WebSite",
+        "@id": "https://mbettan.github.io/tubelens-oss/#website",
+        "url": "https://mbettan.github.io/tubelens-oss/",
+        "name": "TubeLens OSS",
+        "description": "Open-Source FastMCP Server for Deep YouTube Video Intelligence and Creator Research.",
+        "inLanguage": "en-US"
+      },
+      {
+        "@type": "SoftwareApplication",
+        "@id": "https://mbettan.github.io/tubelens-oss/#software",
+        "name": "TubeLens OSS",
+        "applicationCategory": "DeveloperApplication, ArtificialIntelligence",
+        "operatingSystem": "macOS, Linux, Windows, Docker, Cloud Run",
+        "softwareVersion": "1.0.0",
+        "license": "https://www.apache.org/licenses/LICENSE-2.0",
+        "offers": {
+          "@type": "Offer",
+          "price": "0",
+          "priceCurrency": "USD"
+        },
+        "description": "Open-source Model Context Protocol (MCP) server for deep video intelligence and YouTube creator research using Google Gemini with zero local downloads.",
+        "url": "https://mbettan.github.io/tubelens-oss/",
+        "author": {
+          "@type": "Organization",
+          "name": "TubeLens Open Source Project",
+          "url": "https://github.com/mbettan/tubelens-oss"
+        }
+      },
+      {
+        "@type": "FAQPage",
+        "@id": "https://mbettan.github.io/tubelens-oss/#faq",
+        "mainEntity": [
+          {
+            "@type": "Question",
+            "name": "Does TubeLens OSS download YouTube videos to local disk?",
+            "acceptedAnswer": {
+              "@type": "Answer",
+              "text": "No. TubeLens OSS performs zero local media downloads. Public video URLs are passed directly to Google Gemini via Google Cloud's Part.from_uri() infrastructure, ensuring no media files are stored locally."
+            }
+          },
+          {
+            "@type": "Question",
+            "name": "Does TubeLens store or cache video transcripts in a database?",
+            "acceptedAnswer": {
+              "@type": "Answer",
+              "text": "No. TubeLens OSS operates under a 100% live and stateless architecture with zero disk caching and zero database persistence. Every query fetches fresh live data from the YouTube Data API v3 and Google Gemini."
+            }
+          },
+          {
+            "@type": "Question",
+            "name": "Which AI clients and agents support TubeLens OSS?",
+            "acceptedAnswer": {
+              "@type": "Answer",
+              "text": "TubeLens OSS conforms to the open Model Context Protocol (MCP) standard and integrates seamlessly with Claude Desktop, Gemini CLI, Google Antigravity, Cursor, Windsurf, LangChain, and Custom GPTs via Streamable HTTP (/mcp) or SSE (/sse)."
+            }
+          },
+          {
+            "@type": "Question",
+            "name": "What AI models are used by TubeLens OSS?",
+            "acceptedAnswer": {
+              "@type": "Answer",
+              "text": "TubeLens OSS uses Google Gemini 3.7 and 3.6 multimodal models with an automated fallback ladder, ensuring sub-second failover if primary model quotas are reached."
+            }
+          }
+        ]
+      }
+    ]
+  }
+  </script>
+</head>
+<body>
+
+  <!-- Navigation -->
+  <header class="navbar">
+    <div class="nav-container">
+      <a href="#" class="brand-link" aria-label="TubeLens OSS Home">
+        <div class="brand-icon">
+          <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+            <circle cx="12" cy="12" r="8.5" stroke="#ff1744" stroke-width="2" stroke-dasharray="13 2.5 3.5 2.5" />
+            <circle cx="12" cy="12" r="5" stroke="#f43f5e" stroke-width="1.6" />
+            <polygon points="10.5,9.5 15,12 10.5,14.5" fill="#ff1744" stroke="none" />
+            <path d="M12 1.5v2M12 20.5v2M1.5 12h2M20.5 12h2" stroke="#fb7185" stroke-width="1.5" />
+          </svg>
+        </div>
+        <span>TubeLens <span class="badge-oss">OSS</span></span>
+      </a>
+
+      <!-- Desktop & Mobile Nav Menu -->
+      <nav class="nav-menu" aria-label="Main Navigation">
+        <ul class="nav-links" id="main-nav">
+          <li><a href="#simulator">Simulator</a></li>
+          <li><a href="#tools">Tools</a></li>
+          <li><a href="#quickstart">Quickstart</a></li>
+          <li><a href="#configs">Agent Setup</a></li>
+          <li><a href="#faq">FAQ</a></li>
+          <li><a href="llms.txt" class="nav-llms-link" target="_blank" rel="noopener noreferrer" title="View LLM Agent Summary Documentation">llms.txt</a></li>
+        </ul>
+      </nav>
+
+      <div class="nav-actions">
+        <a href="https://github.com/mbettan/tubelens-oss" target="_blank" rel="noopener noreferrer" class="btn-github" aria-label="View TubeLens on GitHub">
+          <svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true">
+            <path d="M12 0C5.37 0 0 5.37 0 12c0 5.31 3.435 9.795 8.205 11.385.6.105.825-.255.825-.57 0-.285-.015-1.23-.015-2.235-3.015.555-3.795-.735-4.035-1.41-.135-.345-.72-1.41-1.23-1.695-.42-.225-1.02-.78-.015-.795.945-.015 1.62.87 1.845 1.23 1.08 1.815 2.805 1.305 3.495.99.105-.78.42-1.305.765-1.605-2.67-.3-5.46-1.335-5.46-5.925 0-1.305.465-2.385 1.23-3.225-.12-.3-.54-1.53.12-3.18 0 0 1.005-.315 3.3 1.23.96-.27 1.98-.405 3-.405s2.04.135 3 .405c2.295-1.56 3.3-1.23 3.3-1.23.66 1.65.24 2.88.12 3.18.765.84 1.23 1.905 1.23 3.225 0 4.605-2.805 5.625-5.475 5.925.435.375.81 1.095.81 2.22 0 1.605-.015 2.895-.015 3.3 0 .315.225.69.825.57A12.02 12.02 0 0 0 24 12c0-6.63-5.37-12-12-12z"/>
+          </svg>
+          <span>GitHub</span>
+        </a>
+
+        <!-- Mobile Menu Toggle Button -->
+        <button id="mobile-menu-btn" class="btn-icon mobile-only" type="button" aria-label="Toggle navigation menu" aria-expanded="false" aria-controls="main-nav">
+          <svg class="menu-icon" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true">
+            <line x1="3" y1="12" x2="21" y2="12"></line>
+            <line x1="3" y1="6" x2="21" y2="6"></line>
+            <line x1="3" y1="18" x2="21" y2="18"></line>
+          </svg>
+        </button>
+      </div>
+    </div>
+  </header>
+
+  <main>
+    <!-- Hero Section -->
+    <section class="hero">
+      <div class="hero-pill">
+        <span>Apache-2.0 · FastMCP · 10 MCP tools</span>
+      </div>
+      <h1>Search, understand & cite <br><span class="gradient-text">Public YouTube Videos</span></h1>
+      <p class="lead">
+        TubeLens OSS connects AI agents directly to YouTube metadata and Google Gemini video understanding. <strong>Zero local media downloads</strong> — public video URLs are processed natively on Google Cloud via <code>Part.from_uri()</code> with timestamped evidence citations.
+      </p>
+
+      <div class="hero-cta">
+        <a href="#quickstart" class="btn-primary">
+          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true">
+            <polygon points="5 3 19 12 5 21 5 3"></polygon>
+          </svg>
+          Get Started Locally
+        </a>
+        <a href="#tools" class="btn-secondary">Explore Research Tools</a>
+      </div>
+
+      <div class="features-grid-badges">
+        <span class="feature-badge">🔒 Zero Local Downloads (<code>Part.from_uri</code>)</span>
+        <span class="feature-badge">⚡ Stateless by default — no disk cache, no DB</span>
+        <span class="feature-badge">🌐 Streamable HTTP + SSE</span>
+        <span class="feature-badge">🔍 Channel &amp; Catalog Discovery</span>
+      </div>
+    </section>
+
+    <!-- Interactive Agent Demo Section -->
+    <section id="simulator" class="section">
+      <div class="section-header">
+        <div class="section-tag">Live Agent Workflow</div>
+        <h2 class="section-title">Watch Claude Research a Creator via MCP</h2>
+        <p class="section-subtitle">An AI agent connects to TubeLens deployed on Cloud Run, chaining 5 MCP tool calls to go from a question to verified, cited intelligence.</p>
+      </div>
+
+      <div class="agent-demo">
+        <!-- macOS-style window chrome -->
+        <div class="agent-titlebar">
+          <div class="agent-titlebar-dots">
+            <span class="dot-close"></span>
+            <span class="dot-minimize"></span>
+            <span class="dot-expand"></span>
+          </div>
+          <div class="agent-titlebar-title">
+            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"></path></svg>
+            Claude
+          </div>
+          <div class="agent-titlebar-actions">
+            <button id="agent-replay-btn" class="agent-replay-btn" title="Replay demo">
+              <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="1 4 1 10 7 10"></polyline><path d="M3.51 15a9 9 0 1 0 2.13-9.36L1 10"></path></svg>
+              Replay
+            </button>
+          </div>
+        </div>
+
+        <!-- MCP Connection Status Bar -->
+        <div class="mcp-connection-bar">
+          <div class="mcp-connection-left">
+            <span class="mcp-status-dot"></span>
+            <span class="mcp-status-label">MCP Connected</span>
+          </div>
+          <div class="mcp-connection-endpoint">
+            <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6"></path><polyline points="15 3 21 3 21 9"></polyline><line x1="10" y1="14" x2="21" y2="3"></line></svg>
+            <code>tubelens-mcp-xxxxxxx.run.app/mcp</code>
+          </div>
+          <div class="mcp-connection-right">
+            <span class="mcp-tools-count">10 tools</span>
+          </div>
+        </div>
+
+        <!-- Chat area -->
+        <div id="agent-chat" class="agent-chat">
+          <!-- Steps are injected by JS -->
+        </div>
+
+        <!-- Progress bar -->
+        <div class="agent-progress">
+          <div class="agent-progress-track">
+            <div id="agent-progress-bar" class="agent-progress-fill"></div>
+          </div>
+          <div id="agent-progress-label" class="agent-progress-label">Ready</div>
+        </div>
+      </div>
+    </section>
+
+    <!-- Tools Explorer Section -->
+    <section id="tools" class="section">
+      <div class="section-header">
+        <div class="section-tag">MCP Server Capabilities</div>
+        <h2 class="section-title">10 Video Intelligence &amp; Research Tools</h2>
+        <p class="section-subtitle">Turn unstructured YouTube videos into queryable, comparable, verifiable knowledge objects with zero local media downloads.</p>
+      </div>
+
+      <div class="tools-grid">
+        <!-- 1 -->
+        <article class="tool-card">
+          <div class="tool-header">
+            <span class="tool-name">youtube_extract_recommendations</span>
+            <span class="badge-tag badge-intel">Decisions</span>
+          </div>
+          <p class="tool-desc">Extracts explicit and implicit recommendations, actions, stance, conviction, risks, alternatives, and timestamped citations.</p>
+        </article>
+
+        <!-- 2 -->
+        <article class="tool-card">
+          <div class="tool-header">
+            <span class="tool-name">youtube_extract_claims</span>
+            <span class="badge-tag badge-intel">Fact Check</span>
+          </div>
+          <p class="tool-desc">Deconstructs videos into discrete falsifiable claims vs opinions, with categorization and independent verification guidance.</p>
+        </article>
+
+        <!-- 3 -->
+        <article class="tool-card">
+          <div class="tool-header">
+            <span class="tool-name">youtube_evaluate_fit</span>
+            <span class="badge-tag badge-fit">Personalization</span>
+          </div>
+          <p class="tool-desc">Scores video relevance (0–100) against user constraints and outputs matching points, conflicting caveats, and tailored action items.</p>
+        </article>
+
+        <!-- 4 -->
+        <article class="tool-card">
+          <div class="tool-header">
+            <span class="tool-name">youtube_compare_videos</span>
+            <span class="badge-tag badge-compare">Synthesis</span>
+          </div>
+          <p class="tool-desc">Synthesizes 2 to 5 videos to reveal consensus, a dimensional disagreement matrix with root causes, and a decision playbook.</p>
+        </article>
+
+        <!-- 5 -->
+        <article class="tool-card">
+          <div class="tool-header">
+            <span class="tool-name">youtube_ask_video</span>
+            <span class="badge-tag badge-qna">Ephemeral Q&A</span>
+          </div>
+          <p class="tool-desc">Answers deep, complex questions directly from video content with structured timestamped evidence citations.</p>
+        </article>
+
+        <!-- 6 -->
+        <article class="tool-card">
+          <div class="tool-header">
+            <span class="tool-name">youtube_analyze_video</span>
+            <span class="badge-tag badge-analysis">Overview</span>
+          </div>
+          <p class="tool-desc">Generates analytical summaries (500–800 words), key topics, short attributed excerpts, and timestamped topic indexes.</p>
+        </article>
+
+        <!-- 7 -->
+        <article class="tool-card">
+          <div class="tool-header">
+            <span class="tool-name">youtube_resolve_channel</span>
+            <span class="badge-tag badge-meta">Discovery</span>
+          </div>
+          <p class="tool-desc">Resolves creator handles (@handle), channel names, or vanity URLs into canonical YouTube Channel IDs.</p>
+        </article>
+
+        <!-- 8 -->
+        <article class="tool-card">
+          <div class="tool-header">
+            <span class="tool-name">youtube_list_channel_videos</span>
+            <span class="badge-tag badge-meta">Catalog</span>
+          </div>
+          <p class="tool-desc">Browses, filters, and paginates through a creator's uploaded video catalog with keyword search and duration filters.</p>
+        </article>
+
+        <!-- 9 -->
+        <article class="tool-card">
+          <div class="tool-header">
+            <span class="tool-name">youtube_list_playlist_videos</span>
+            <span class="badge-tag badge-meta">Playlist</span>
+          </div>
+          <p class="tool-desc">Enumerates and paginates through all videos contained in any public or unlisted YouTube playlist.</p>
+        </article>
+
+        <!-- 10 -->
+        <article class="tool-card">
+          <div class="tool-header">
+            <span class="tool-name">youtube_get_videos</span>
+            <span class="badge-tag badge-meta">Batch Metadata</span>
+          </div>
+          <p class="tool-desc">Batch retrieves detailed metadata (tags, view counts, duration, publication date) for up to 50 video IDs in one request.</p>
+        </article>
+      </div>
+    </section>
+
+
+
+    <!-- Quickstart Section -->
+    <section id="quickstart" class="section">
+      <div class="section-header">
+        <div class="section-tag">Quick Start</div>
+        <h2 class="section-title">Run in 3 Steps</h2>
+        <p class="section-subtitle">Spin up your local TubeLens MCP server in seconds using uv.</p>
+      </div>
+
+      <div class="code-wrapper" style="margin-bottom: 2rem;">
+        <button class="copy-btn" data-code="code-quickstart">Copy</button>
+        <pre id="code-quickstart"><code># 1. Clone the repository
+git clone https://github.com/mbettan/tubelens-oss.git
+cd tubelens-oss
+
+# 2. Copy and configure environment variables
+cp .env.example .env
+# Edit .env with your GOOGLE_CLOUD_PROJECT and YOUTUBE_API_KEY
+
+# 3. Sync dependencies and run server locally
+uv sync
+uv run python -m src.server</code></pre>
+      </div>
+    </section>
+
+    <!-- Agent Configs Section -->
+    <section id="configs" class="section">
+      <div class="section-header">
+        <div class="section-tag">Client Integrations</div>
+        <h2 class="section-title">Connect Any AI Agent</h2>
+        <p class="section-subtitle">Plug TubeLens directly into Claude Desktop, Gemini CLI, Cursor, or ChatGPT Actions.</p>
+      </div>
+
+      <div class="config-container">
+        <div class="tabs-nav" role="tablist">
+          <button class="tab-btn active" role="tab" aria-selected="true" data-tab="tab-claude">Claude Desktop</button>
+          <button class="tab-btn" role="tab" aria-selected="false" data-tab="tab-gemini">Gemini / Antigravity</button>
+          <button class="tab-btn" role="tab" aria-selected="false" data-tab="tab-chatgpt">ChatGPT Actions</button>
+          <button class="tab-btn" role="tab" aria-selected="false" data-tab="tab-cloudrun">Cloud Run (1-Click)</button>
+        </div>
+
+        <!-- Claude Tab -->
+        <div id="tab-claude" class="tab-content active" role="tabpanel">
+          <p style="color: var(--text-secondary); margin-bottom: 1rem; font-size: 0.9rem;">
+            Add to <code>~/Library/Application Support/Claude/claude_desktop_config.json</code>:
+          </p>
+          <div class="code-wrapper">
+            <button class="copy-btn" data-code="code-claude">Copy</button>
+            <pre id="code-claude"><code>{
+  "mcpServers": {
+    "tubelens": {
+      "command": "uv",
+      "args": ["run", "python", "-m", "src.server"],
+      "cwd": "/path/to/tubelens-oss",
+      "env": {
+        "GOOGLE_CLOUD_PROJECT": "your-project-id",
+        "YOUTUBE_API_KEY": "your-youtube-api-key",
+        "AUTH_MODE": "none"
+      }
+    }
+  }
+}</code></pre>
+          </div>
+        </div>
+
+        <!-- Gemini Tab -->
+        <div id="tab-gemini" class="tab-content" role="tabpanel">
+          <p style="color: var(--text-secondary); margin-bottom: 1rem; font-size: 0.9rem;">
+            Add with the Antigravity CLI or Google AI SDK:
+          </p>
+          <div class="code-wrapper">
+            <button class="copy-btn" data-code="code-gemini">Copy</button>
+            <pre id="code-gemini"><code>antigravity mcp add tubelens \
+  --command "uv run python -m src.server" \
+  --cwd "/path/to/tubelens-oss" \
+  --env GOOGLE_CLOUD_PROJECT=your-project-id \
+  --env YOUTUBE_API_KEY=your-youtube-api-key \
+  --env AUTH_MODE=none</code></pre>
+          </div>
+        </div>
+
+        <!-- ChatGPT Tab -->
+        <div id="tab-chatgpt" class="tab-content" role="tabpanel">
+          <p style="color: var(--text-secondary); margin-bottom: 1rem; font-size: 0.9rem;">
+            Point Custom GPT Actions to the remote MCP Streamable HTTP endpoint:
+          </p>
+          <div class="code-wrapper">
+            <button class="copy-btn" data-code="code-chatgpt">Copy</button>
+            <pre id="code-chatgpt"><code># OpenAPI 3.1 endpoint for Custom GPTs
+url: "https://your-cloud-run-url.run.app/mcp"
+auth:
+  type: "bearer"
+  token: "YOUR_MCP_API_KEY"</code></pre>
+          </div>
+        </div>
+
+        <!-- Cloud Run Tab -->
+        <div id="tab-cloudrun" class="tab-content" role="tabpanel">
+          <p style="color: var(--text-secondary); margin-bottom: 1rem; font-size: 0.9rem;">
+            Deploy to Google Cloud Run with Cloud Build:
+          </p>
+          <div class="code-wrapper">
+            <button class="copy-btn" data-code="code-cloudrun">Copy</button>
+            <pre id="code-cloudrun"><code>gcloud builds submit --config=cloudbuild.yaml \
+  --substitutions=_REGION="us-central1",_SERVICE_NAME="tubelens-mcp"</code></pre>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- FAQ Section (Accessible Accordion & Schema.org FAQPage) -->
+    <section id="faq" class="section">
+      <div class="section-header">
+        <div class="section-tag">Frequently Asked Questions</div>
+        <h2 class="section-title">Common Questions &amp; Architecture</h2>
+        <p class="section-subtitle">Everything you need to know about TubeLens data privacy, compliance, and deployment.</p>
+      </div>
+
+      <div class="faq-container">
+        <details class="faq-item" name="faq-group">
+          <summary class="faq-summary">
+            <span>Does TubeLens OSS download YouTube videos to local disk?</span>
+            <svg class="faq-icon" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="6 9 12 15 18 9"></polyline></svg>
+          </summary>
+          <div class="faq-content">
+            <p><strong>No.</strong> TubeLens OSS performs zero local media downloads. Public video URLs are passed directly to Google Gemini via Google Cloud's <code>Part.from_uri()</code> multimodal engine, ensuring no video or audio files are written to local storage.</p>
+          </div>
+        </details>
+
+        <details class="faq-item" name="faq-group">
+          <summary class="faq-summary">
+            <span>Does TubeLens store or cache transcripts in a database?</span>
+            <svg class="faq-icon" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="6 9 12 15 18 9"></polyline></svg>
+          </summary>
+          <div class="faq-content">
+            <p><strong>No.</strong> TubeLens OSS operates with a 100% live and stateless architecture. There is zero disk caching and zero database persistence. Every request retrieves fresh data directly from the YouTube Data API v3 and Google Gemini.</p>
+          </div>
+        </details>
+
+        <details class="faq-item" name="faq-group">
+          <summary class="faq-summary">
+            <span>How does the automated model fallback ladder work?</span>
+            <svg class="faq-icon" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="6 9 12 15 18 9"></polyline></svg>
+          </summary>
+          <div class="faq-content">
+            <p>TubeLens automatically catches transient errors (429 Rate Limit, Quota Exceeded, 404, or DeadlineExceeded) and seamlessly switches from primary model (<code>gemini-3.7-flash</code>) to fallback model (<code>gemini-3.6-flash</code>) with zero interruption to the AI client.</p>
+          </div>
+        </details>
+
+        <details class="faq-item" name="faq-group">
+          <summary class="faq-summary">
+            <span>Is TubeLens OSS compliant with YouTube Terms of Service?</span>
+            <svg class="faq-icon" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="6 9 12 15 18 9"></polyline></svg>
+          </summary>
+          <div class="faq-content">
+            <p>TubeLens is designed for compliance: it uses only the official YouTube Data API v3 for metadata and passes public URLs to Google Cloud for analysis. It downloads, stores, and redistributes nothing. You remain responsible for your own use — see <a href="https://github.com/mbettan/tubelens-oss/blob/main/LEGAL.md">LEGAL.md</a>.</p>
+          </div>
+        </details>
+
+        <details class="faq-item" name="faq-group">
+          <summary class="faq-summary">
+            <span>Can I deploy TubeLens OSS to Google Cloud Run?</span>
+            <svg class="faq-icon" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="6 9 12 15 18 9"></polyline></svg>
+          </summary>
+          <div class="faq-content">
+            <p>Yes! A production-ready <code>Dockerfile</code> and <code>cloudbuild.yaml</code> are included in the repository. You can deploy a scalable, stateless Streamable HTTP FastMCP endpoint to Cloud Run with a single command.</p>
+          </div>
+        </details>
+
+        <details class="faq-item" name="faq-group">
+          <summary class="faq-summary">
+            <span>What does it cost to run, and what are the quota limits?</span>
+            <svg class="faq-icon" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="6 9 12 15 18 9"></polyline></svg>
+          </summary>
+          <div class="faq-content">
+            <p>TubeLens itself is free (Apache-2.0). You pay Google for what you use: the YouTube Data API v3 default quota is <strong>10,000 units/day</strong> — a <code>videos.list</code> call costs 1 unit, a <code>search.list</code> costs 100 — and Gemini multimodal inference is billed per input token, where video is tokenized at roughly <strong>300 tokens per second of footage</strong> at default resolution. A 20-minute video analysis is typically a few cents. The server surfaces quota usage in every tool response so your agent can budget.</p>
+          </div>
+        </details>
+      </div>
+    </section>
+  </main>
+
+  <!-- Footer -->
+  <footer>
+    <div class="footer-container">
+      <div class="footer-col">
+        <div class="brand-link" style="margin-bottom: 0.75rem;">
+          <div class="brand-icon">
+            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+              <circle cx="12" cy="12" r="8.5" stroke="#ff1744" stroke-width="2" stroke-dasharray="13 2.5 3.5 2.5" />
+              <circle cx="12" cy="12" r="5" stroke="#f43f5e" stroke-width="1.6" />
+              <polygon points="10.5,9.5 15,12 10.5,14.5" fill="#ff1744" stroke="none" />
+              <path d="M12 1.5v2M12 20.5v2M1.5 12h2M20.5 12h2" stroke="#fb7185" stroke-width="1.5" />
+            </svg>
+          </div>
+          <span>TubeLens <span class="badge-oss">OSS</span></span>
+        </div>
+        <p style="font-size: 0.88rem; color: var(--text-secondary); max-width: 340px; line-height: 1.55;">
+          Open-source YouTube video intelligence &amp; research MCP server for AI agents. Stateless by default.
+        </p>
+      </div>
+
+      <div class="footer-col">
+        <h4>Documentation</h4>
+        <ul>
+          <li><a href="#simulator">Simulator</a></li>
+          <li><a href="#tools">MCP Tools</a></li>
+          <li><a href="#configs">Agent Configs</a></li>
+          <li><a href="#quickstart">Quickstart</a></li>
+          <li><a href="#faq">FAQ</a></li>
+        </ul>
+      </div>
+
+      <div class="footer-col">
+        <h4>Open Source</h4>
+        <ul>
+          <li><a href="https://github.com/mbettan/tubelens-oss" target="_blank" rel="noopener noreferrer">GitHub Repository</a></li>
+          <li><a href="https://github.com/mbettan/tubelens-oss/issues" target="_blank" rel="noopener noreferrer">Issue Tracker</a></li>
+          <li><a href="https://github.com/mbettan/tubelens-oss/blob/main/LICENSE" target="_blank" rel="noopener noreferrer">Apache 2.0 License</a></li>
+          <li><a href="https://github.com/mbettan/tubelens-oss/blob/main/LEGAL.md" target="_blank" rel="noopener noreferrer">Legal &amp; Policy</a></li>
+        </ul>
+      </div>
+    </div>
+
+    <div class="footer-bottom">
+      <div>TubeLens OSS is open-source software and is not affiliated with, endorsed by, or sponsored by YouTube or Google LLC.</div>
+      <div>Apache-2.0 License &middot; Zero Local Downloads &middot; 100% Stateless</div>
+    </div>
+  </footer>
+
+  <script src="app.js"></script>
+</body>
+</html>

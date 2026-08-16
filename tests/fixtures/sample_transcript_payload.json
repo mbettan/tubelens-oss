@@ -1,0 +1,19 @@
+{
+  "video_id": "test_vid_001",
+  "title": "Sample Transcribed Video",
+  "duration_seconds": 120,
+  "turns": [
+    {
+      "timestamp_seconds": 0,
+      "timestamp_formatted": "00:00:00",
+      "speaker_name": "Host",
+      "text": "Welcome to our video on modern artificial intelligence."
+    },
+    {
+      "timestamp_seconds": 30,
+      "timestamp_formatted": "00:00:30",
+      "speaker_name": "Guest",
+      "text": "Thanks for having me on the show."
+    }
+  ]
+}

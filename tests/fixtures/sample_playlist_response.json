@@ -1,0 +1,27 @@
+{
+  "kind": "youtube#playlistItemListResponse",
+  "pageInfo": {
+    "totalResults": 1
+  },
+  "items": [
+    {
+      "snippet": {
+        "resourceId": {
+          "videoId": "tst_vid_001"
+        },
+        "title": "Sample Video Title",
+        "description": "Sample video description",
+        "publishedAt": "2025-01-01T00:00:00Z",
+        "channelId": "UCtest123",
+        "channelTitle": "Test Channel",
+        "thumbnails": {
+          "default": { "url": "https://example.com/thumb.jpg" }
+        }
+      },
+      "contentDetails": {
+        "videoId": "tst_vid_001",
+        "videoPublishedAt": "2025-01-01T00:00:00Z"
+      }
+    }
+  ]
+}

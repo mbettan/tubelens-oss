@@ -1,0 +1,192 @@
+# TubeLens OSS — Complete Technical & LLM Agent Reference
+
+> Open-Source FastMCP Server for Deep YouTube Video Intelligence and Creator Research via Google Gemini Multimodal Understanding with Zero Local Downloads.
+
+Version: 1.0.0
+License: Apache-2.0
+Repository: https://github.com/mbettan/tubelens-oss
+Documentation: https://mbettan.github.io/tubelens-oss/
+
+---
+
+## 1. System Architecture & Philosophy
+
+TubeLens OSS connects LLMs and AI Agents (Claude Desktop, Gemini CLI, Cursor, Antigravity, Custom GPTs) to YouTube video content and metadata.
+
+### Core Architectural Pillars
+1. **Zero Local Media Downloads**: Public video URLs are passed directly to Google Gemini via `Part.from_uri()` on Google Cloud infrastructure. No video or audio files are downloaded to local disk.
+2. **100% Live & Stateless**: Zero disk persistence and zero local database caching. Every query fetches fresh live data from the YouTube Data API v3 and Google Gemini multimodal reasoning.
+3. **Structured Evidence Citations**: Every analytical claim, recommendation, and answer includes exact speaker turns and clickable YouTube timestamp links (`https://www.youtube.com/watch?v={video_id}&t={seconds}`).
+4. **Fair Use & Attestation Safety**: Analysis tools provide transformative synthesis and fact extraction. Direct transcription tools require user ownership or explicit rights attestation.
+5. **Model Fallback Ladder**: Automatically retries across a configured priority ladder (`gemini-3.7-flash` -> `gemini-3.6-flash`) if an upstream quota (429) or transient outage occurs.
+
+---
+
+## 2. MCP Tools Reference (10 Tools)
+
+### `youtube_resolve_channel`
+- **Description**: Resolves creator handles (`@username`), channel names, custom URLs, or channel IDs into canonical YouTube Channel IDs and metadata.
+- **Input Parameters**:
+  - `query` (string, required): Channel handle (e.g. `@veritasium`), vanity URL, exact name, or channel ID (`UC...`).
+  - `max_candidates` (integer, default=5): Maximum channel candidates to return.
+- **Returns**: `ChannelResolutionResult` JSON with `resolved`, `match_type`, `channel` (containing `channel_id`, `title`, `handle`, `subscriber_count`, `video_count`, `uploads_playlist_id`).
+
+### `youtube_list_channel_videos`
+- **Description**: Browses, filters, and paginates through a creator's uploaded video catalog.
+- **Input Parameters**:
+  - `channel_id` (string, required): Canonical YouTube Channel ID (`UC...`).
+  - `query` (string, optional): Keyword query to filter video titles and descriptions.
+  - `limit` (integer, default=20, max=50): Number of videos to return per page.
+  - `cursor` (string, optional): Pagination token for subsequent pages.
+  - `sort` (string, default="newest"): Sort order: `newest`, `oldest`, `popular`.
+  - `duration` (string, default="all"): Duration filter: `all`, `short` (<4 min), `medium` (4-20 min), `long` (>20 min).
+  - `published_after` (string, optional): ISO 8601 date string (`YYYY-MM-DD`).
+- **Returns**: `CatalogVideosPage` JSON with `videos` (list of `VideoCard` objects), `next_cursor`, `total_results`.
+
+### `youtube_list_playlist_videos`
+- **Description**: Lists all videos in any public or unlisted YouTube playlist.
+- **Input Parameters**:
+  - `playlist_id` (string, required): YouTube Playlist ID (`PL...` or `UU...`).
+  - `limit` (integer, default=20, max=50): Number of videos per page.
+  - `cursor` (string, optional): Pagination token.
+- **Returns**: `PlaylistVideosPage` JSON with `videos`, `next_cursor`, `total_results`.
+
+### `youtube_get_videos`
+- **Description**: Batch retrieves detailed metadata for up to 50 videos in one request.
+- **Input Parameters**:
+  - `video_ids` (array of strings, required): List of 11-character YouTube video IDs.
+- **Returns**: Array of `VideoDetailedMetadata` objects (title, description, tags, duration_seconds, view_count, like_count, published_at, channel_id, channel_title).
+
+### `youtube_analyze_video`
+- **Description**: Generates an analytical overview of a video (500–800 words), key topics, notable quoted excerpts, and timestamp index.
+- **Input Parameters**:
+  - `url` (string, required): YouTube video URL or 11-character video ID.
+  - `language` (string, default="en"): Video spoken language code.
+- **Returns**: `VideoAnalysis` JSON with `summary`, `key_topics`, `notable_quotes` (with `youtube_link`), `timestamp_index`, `speaker_registry`, `attribution`.
+
+### `youtube_ask_video`
+- **Description**: Ephemeral deep Q&A answering specific questions directly from video content with structured evidence quotes and timestamp links.
+- **Input Parameters**:
+  - `url` (string, required): YouTube video URL or 11-character video ID.
+  - `query` (string, required): Specific focus question to answer from video content.
+  - `language` (string, default="en"): Video spoken language code.
+- **Returns**: `VideoAnswerResponse` JSON with `query`, `answer`, `evidence` (list of `VideoEvidence` with `timestamp_seconds`, `timestamp_formatted`, `quote`, `speaker_name`, `youtube_link`), `attribution`.
+
+### `youtube_extract_recommendations`
+- **Description**: Extracts explicit and implicit recommendations, actions, stance, conviction, risks, alternatives, and timestamped citations.
+- **Input Parameters**:
+  - `url` (string, required): YouTube video URL or 11-character video ID.
+  - `domain_hint` (string, default="general"): Domain context (e.g. `finance`, `software`, `health`).
+  - `language` (string, default="en"): Video spoken language code.
+- **Returns**: `RecommendationsResponse` JSON with `recommendations` list (each containing `item_or_topic`, `action`, `stance`, `conviction`, `thesis`, `tradeoffs`, `alternatives`, `evidence`), `attribution`.
+
+### `youtube_extract_claims`
+- **Description**: Deconstructs video into falsifiable claims vs subjective opinions, with categorization and verification guidance.
+- **Input Parameters**:
+  - `url` (string, required): YouTube video URL or 11-character video ID.
+  - `topic_filter` (string, optional): Specific topic or assertion to filter claims on.
+  - `language` (string, default="en"): Video spoken language code.
+- **Returns**: `ClaimsResponse` JSON with `claims` list (each containing `claim_text`, `claim_type`, `verifiable`, `confidence`, `verification_guidance`, `evidence`), `attribution`.
+
+### `youtube_evaluate_fit`
+- **Description**: Evaluates video relevance (0–100 score) against user constraints and outputs matching points, conflicting caveats, and tailored action items.
+- **Input Parameters**:
+  - `url` (string, required): YouTube video URL or 11-character video ID.
+  - `user_profile` (string, required): User background, constraints, portfolio, or goals.
+  - `decision_context` (string, default="general"): Specific decision context.
+  - `language` (string, default="en"): Video spoken language code.
+- **Returns**: `FitEvaluationResponse` JSON with `relevance_score`, `verdict`, `executive_summary`, `applicable_points`, `conflicting_caveats`, `action_items`, `evidence`, `attribution`.
+
+### `youtube_compare_videos`
+- **Description**: Synthesizes 2 to 5 videos to reveal consensus, a dimensional disagreement matrix with root causes, and a decision playbook.
+- **Input Parameters**:
+  - `urls` (array of strings, required, min=2, max=5): List of YouTube video URLs to compare.
+  - `topic` (string, required): Focus topic for cross-video synthesis.
+  - `language` (string, default="en"): Video spoken language code.
+- **Returns**: `VideoComparisonResponse` JSON with `topic`, `consensus_points`, `disagreements` (each with `dimension`, `positions`, `root_cause`), `decision_playbook`, `videos_compared`, `attribution`.
+
+---
+
+## 3. Error Taxonomy & Envelopes
+
+Every error returned by TubeLens OSS conforms to a standardized JSON error envelope:
+```json
+{
+  "error": {
+    "code": "ERROR_CODE",
+    "message": "Human-readable description of error.",
+    "retryable": false,
+    "retry_after_s": null,
+    "recovery_hint": "Actionable guidance for the AI agent to recover.",
+    "details": {}
+  }
+}
+```
+
+### Standard Error Codes
+- `INVALID_INPUT`: Malformed URL or query parameter. Recovery: Provide valid YouTube URL.
+- `VIDEO_UNAVAILABLE`: Video is private, deleted, or region-restricted.
+- `LIVE_STREAM_NOT_SUPPORTED`: Video is an active live stream. Recovery: Retry once VOD is archived.
+- `UPSTREAM_QUOTA`: YouTube API or Gemini quota reached.
+- `RATE_LIMITED`: Rate limit exceeded. Honor `retry_after_s`.
+- `RIGHTS_ATTESTATION_REQUIRED`: Direct full transcription attempted without user ownership attestation.
+
+---
+
+## 4. MCP Prompts & Resources
+
+### Prompts
+- `youtube_creator_research`: Guides the agent through resolving creator handles, querying catalogs, and synthesizing video insights.
+- `video_analysis`: Guides the agent through question answering, claim auditing, and citing exact timestamps.
+
+### Resources
+- `youtube://channels/{channel_id}/info`: Live JSON channel metadata.
+- `youtube://videos/{video_id}/metadata`: Live JSON video metadata.
+
+---
+
+## 5. Client Integration Configurations
+
+### Claude Desktop Configuration
+File: `~/Library/Application Support/Claude/claude_desktop_config.json`
+```json
+{
+  "mcpServers": {
+    "tubelens": {
+      "command": "uv",
+      "args": ["run", "python", "-m", "src.server"],
+      "cwd": "/path/to/tubelens-oss",
+      "env": {
+        "GOOGLE_CLOUD_PROJECT": "your-project-id",
+        "YOUTUBE_API_KEY": "your-youtube-api-key",
+        "AUTH_MODE": "none"
+      }
+    }
+  }
+}
+```
+
+### Gemini CLI / Antigravity Configuration
+```bash
+antigravity mcp add tubelens \
+  --command "uv run python -m src.server" \
+  --cwd "/path/to/tubelens-oss" \
+  --env GOOGLE_CLOUD_PROJECT=your-project-id \
+  --env YOUTUBE_API_KEY=your-youtube-api-key \
+  --env AUTH_MODE=none
+```
+
+### Custom GPT / ChatGPT Actions (OpenAPI 3.1)
+```yaml
+url: "https://your-service.run.app/mcp"
+auth:
+  type: "bearer"
+  token: "YOUR_MCP_API_KEY"
+```
+
+---
+
+## 6. Security, Fair Use & Privacy Policy
+- **No Local Storage**: Zero audio/video files or transcript files are written to disk.
+- **Fair Use Compliant**: Provides factual extraction, structured decision tables, and analytical summaries citing source material.
+- **Attribution Notice**: Every output contains a mandatory `CreatorAttribution` object identifying the creator channel and linking to the source video.

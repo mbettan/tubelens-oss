@@ -1,0 +1,94 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 128 128" width="128" height="128">
+  <defs>
+    <!-- Background Gradient: Deep Obsidian Crimson -->
+    <linearGradient id="bgGrad" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#1c070e" />
+      <stop offset="60%" stop-color="#0e0306" />
+      <stop offset="100%" stop-color="#050102" />
+    </linearGradient>
+
+    <!-- Outer Frame Stroke Gradient -->
+    <linearGradient id="borderGrad" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#ff1744" stop-opacity="0.7" />
+      <stop offset="50%" stop-color="#e11d48" stop-opacity="0.3" />
+      <stop offset="100%" stop-color="#f43f5e" stop-opacity="0.1" />
+    </linearGradient>
+
+    <!-- Crimson-to-Amber Flame Lens Gradient -->
+    <linearGradient id="lensRingGrad" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#ff1744" />
+      <stop offset="45%" stop-color="#f43f5e" />
+      <stop offset="80%" stop-color="#fb7185" />
+      <stop offset="100%" stop-color="#fb923c" />
+    </linearGradient>
+
+    <!-- Play-Prism Gradient -->
+    <linearGradient id="prismGrad" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#ffffff" />
+      <stop offset="35%" stop-color="#ff2a55" />
+      <stop offset="100%" stop-color="#e11d48" />
+    </linearGradient>
+
+    <!-- Aperture Blade Fill -->
+    <linearGradient id="bladeGrad" x1="0%" y1="100%" x2="100%" y2="0%">
+      <stop offset="0%" stop-color="#9f1239" stop-opacity="0.75" />
+      <stop offset="50%" stop-color="#e11d48" stop-opacity="0.45" />
+      <stop offset="100%" stop-color="#ff2e5b" stop-opacity="0.85" />
+    </linearGradient>
+
+    <!-- Core Ambient Halo -->
+    <radialGradient id="coreHalo" cx="50%" cy="50%" r="50%">
+      <stop offset="0%" stop-color="#ff1744" stop-opacity="0.35" />
+      <stop offset="100%" stop-color="#ff1744" stop-opacity="0" />
+    </radialGradient>
+
+    <!-- Glow Filter -->
+    <filter id="glow" x="-20%" y="-20%" width="140%" height="140%">
+      <feGaussianBlur stdDeviation="2.5" result="blur" />
+      <feComposite in="SourceGraphic" in2="blur" operator="over" />
+    </filter>
+
+    <!-- Flare Filter -->
+    <filter id="flare" x="-30%" y="-30%" width="160%" height="160%">
+      <feGaussianBlur stdDeviation="4" result="blur" />
+      <feComposite in="SourceGraphic" in2="blur" operator="over" />
+    </filter>
+  </defs>
+
+  <!-- Base App Badge Background -->
+  <rect x="4" y="4" width="120" height="120" rx="30" fill="url(#bgGrad)" stroke="url(#borderGrad)" stroke-width="2" />
+
+  <!-- Ambient Red Core Bloom -->
+  <circle cx="64" cy="64" r="44" fill="url(#coreHalo)" />
+
+  <!-- Outer Optical Calibration Track (Concentric Lens Ring) -->
+  <circle cx="64" cy="64" r="45" fill="none" stroke="url(#lensRingGrad)" stroke-width="2.5" stroke-dasharray="54 8 14 8 22 8" filter="url(#glow)" />
+
+  <!-- Optical Calibration Tick Marks (Compass Notches) -->
+  <path d="M64 11 L64 19 M64 109 L64 117 M11 64 L19 64 M109 64 L117 64" stroke="#ff4d6d" stroke-width="2.5" stroke-linecap="round" opacity="0.9" />
+  <path d="M27 27 L33 33 M95 95 L101 101 M27 101 L33 95 M95 33 L101 27" stroke="#f43f5e" stroke-width="1.8" stroke-linecap="round" opacity="0.5" />
+
+  <!-- Mid Concentric Precision Ring -->
+  <circle cx="64" cy="64" r="33" fill="none" stroke="#e11d48" stroke-width="1.5" stroke-dasharray="4 6" opacity="0.6" />
+
+  <!-- Hexagonal Optical Iris Blades (Geometric Video Aperture) -->
+  <path d="M64 35 C75 35 85 41 89 50 L64 57 Z" fill="url(#bladeGrad)" stroke="#ff2a55" stroke-width="1" />
+  <path d="M89 50 C93 61 91 73 85 81 L68 67 Z" fill="url(#bladeGrad)" stroke="#ff2a55" stroke-width="1" />
+  <path d="M85 81 C77 89 65 93 55 89 L60 65 Z" fill="url(#bladeGrad)" stroke="#ff2a55" stroke-width="1" />
+  <path d="M55 89 C45 87 37 79 35 69 L57 61 Z" fill="url(#bladeGrad)" stroke="#ff2a55" stroke-width="1" />
+  <path d="M35 69 C35 57 41 47 49 41 L59 65 Z" fill="url(#bladeGrad)" stroke="#ff2a55" stroke-width="1" />
+  <path d="M49 41 C57 35 69 35 77 41 L64 65 Z" fill="url(#bladeGrad)" stroke="#ff2a55" stroke-width="1" />
+
+  <!-- Inner Focal Aperture Ring -->
+  <circle cx="64" cy="64" r="21" fill="none" stroke="url(#lensRingGrad)" stroke-width="2.5" />
+
+  <!-- Central Video Focus Prism (Integrated Play-Lens Mark) -->
+  <polygon points="56,49 78,64 56,79" fill="url(#prismGrad)" stroke="#ffffff" stroke-width="1.5" stroke-linejoin="round" filter="url(#glow)" />
+  
+  <!-- Optical Laser Focal Spark inside the play prism -->
+  <circle cx="63" cy="64" r="3" fill="#ffffff" />
+  <circle cx="61.5" cy="62.5" r="1.2" fill="#ffffff" opacity="0.9" />
+
+  <!-- Crosshair Reticle Center Point -->
+  <path d="M64 45 L64 48 M64 80 L64 83 M45 64 L48 64 M80 64 L83 64" stroke="#ffffff" stroke-width="1.5" stroke-linecap="round" opacity="0.85" />
+</svg>

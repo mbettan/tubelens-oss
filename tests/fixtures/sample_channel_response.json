@@ -1,0 +1,25 @@
+{
+  "kind": "youtube#channelListResponse",
+  "items": [
+    {
+      "id": "UCtest123",
+      "snippet": {
+        "title": "Test Channel",
+        "description": "A sample YouTube channel for testing.",
+        "customUrl": "@TestChannel",
+        "thumbnails": {
+          "default": { "url": "https://example.com/thumb.jpg" }
+        }
+      },
+      "statistics": {
+        "subscriberCount": "10000",
+        "videoCount": "50"
+      },
+      "contentDetails": {
+        "relatedPlaylists": {
+          "uploads": "UUtest123"
+        }
+      }
+    }
+  ]
+}

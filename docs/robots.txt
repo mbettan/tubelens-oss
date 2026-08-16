@@ -1,0 +1,21 @@
+# Robots.txt for TubeLens OSS Documentation
+User-agent: *
+Allow: /
+
+# Direct AI Agents and LLM crawlers to llms.txt & llms-full.txt
+User-agent: GPTBot
+Allow: /
+
+User-agent: ClaudeBot
+Allow: /
+
+User-agent: PerplexityBot
+Allow: /
+
+User-agent: Google-Extended
+Allow: /
+
+User-agent: Applebot-Extended
+Allow: /
+
+Sitemap: https://mbettan.github.io/tubelens-oss/sitemap.xml

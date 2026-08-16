@@ -1,0 +1,35 @@
+# TubeLens OSS — Google Gemini / Antigravity CLI MCP Configuration
+#
+# For use with the Antigravity CLI or Google AI SDK MCP client.
+#
+# Local stdio connection:
+#
+#   antigravity mcp add tubelens \
+#     --command "uv run python -m src.server" \
+#     --cwd "/path/to/tubelens-oss" \
+#     --env GOOGLE_CLOUD_PROJECT=your-project-id \
+#     --env YOUTUBE_API_KEY=your-youtube-api-key \
+#     --env AUTH_MODE=none
+#
+# Remote Streamable HTTP connection (Cloud Run):
+#
+#   antigravity mcp add tubelens \
+#     --url "https://your-cloud-run-url.run.app/mcp" \
+#     --header "Authorization: Bearer YOUR_API_KEY"
+#
+# Available Tools (10):
+# - youtube_extract_recommendations (structured decisions, stance, conviction, risks, alternatives)
+# - youtube_extract_claims (verifiable claims vs opinions with verification guidance)
+# - youtube_evaluate_fit (personalized relevance score 0-100 & custom action items)
+# - youtube_compare_videos (cross-video consensus & disagreement matrix with root causes)
+# - youtube_ask_video (ephemeral deep Q&A — recommended for questions)
+# - youtube_analyze_video (summary, topics, excerpts, index)
+# - youtube_resolve_channel
+# - youtube_list_channel_videos
+# - youtube_list_playlist_videos
+# - youtube_get_videos
+#
+# Golden Rules:
+# 1. Use youtube_extract_recommendations, youtube_extract_claims, or youtube_ask_video for focused intelligence
+# 2. Always include creator attribution in outputs
+# 3. Format citations: [Title @ HH:MM:SS](URL&t=SECONDS)

@@ -1,0 +1,108 @@
+# TubeLens OSS
+
+> Open-Source Model Context Protocol (MCP) server for deep video intelligence and YouTube creator research using Google Gemini with zero local downloads.
+
+## Overview
+TubeLens OSS enables AI agents (Claude Desktop, Gemini CLI, Cursor, Antigravity, Custom GPTs) to research YouTube channels, browse video catalogs, extract actionable recommendations, verify claims, evaluate user fit, compare multiple perspectives, and perform deep evidence-backed video Q&A.
+
+## Key Architectural Principles
+- **Zero Local Media Downloads**: Public video URLs are passed directly to Google Gemini via `Part.from_uri()` on Google Cloud infrastructure. No audio/video files are downloaded to local disk.
+- **100% Live & Stateless**: Zero local disk caching and zero database persistence. All queries fetch fresh data from the YouTube Data API v3 and Gemini multimodal processing.
+- **Timestamped Evidence Citations**: Every analytical claim and answer includes exact speaker turns and clickable YouTube timestamp links: `https://www.youtube.com/watch?v={video_id}&t={seconds}`.
+- **FastMCP Protocol**: Exposes tools via standard Model Context Protocol (MCP) over Streamable HTTP (`/mcp`), Server-Sent Events (`/sse`), and stdio transports.
+
+## Research & Intelligence Tools (10 Tools)
+
+### 1. `youtube_resolve_channel`
+- **Purpose**: Resolves creator handles (`@username`), channel names, custom URLs, or channel IDs into canonical YouTube Channel IDs and metadata.
+- **Parameters**:
+  - `query` (string, required): Free-text channel name, handle (`@veritasium`), or channel ID (`UC...`).
+  - `max_candidates` (integer, default=5): Maximum channel candidates to return if exact match is not found.
+
+### 2. `youtube_list_channel_videos`
+- **Purpose**: Browses, filters, and paginates through a creator's uploaded video catalog.
+- **Parameters**:
+  - `channel_id` (string, required): Canonical YouTube Channel ID (`UC...`).
+  - `query` (string, optional): Keyword search within the creator's video catalog.
+  - `limit` (integer, default=20, max=50): Number of videos per page.
+  - `cursor` (string, optional): Pagination page token.
+  - `sort` (string, default="newest"): Sort order (`newest`, `oldest`, `popular`).
+  - `duration` (string, default="all"): Duration filter (`all`, `short` <4m, `medium` 4-20m, `long` >20m).
+  - `published_after` (string, optional): ISO 8601 date string (`YYYY-MM-DD`).
+
+### 3. `youtube_list_playlist_videos`
+- **Purpose**: Lists all videos in any public or unlisted YouTube playlist.
+- **Parameters**:
+  - `playlist_id` (string, required): YouTube Playlist ID (`PL...` or `UU...`).
+  - `limit` (integer, default=20, max=50): Number of videos per page.
+  - `cursor` (string, optional): Pagination token.
+
+### 4. `youtube_get_videos`
+- **Purpose**: Batch retrieves detailed metadata (duration, tags, view count, publication date) for up to 50 videos.
+- **Parameters**:
+  - `video_ids` (array of strings, required): List of 11-character YouTube video IDs.
+
+### 5. `youtube_analyze_video`
+- **Purpose**: Generates analytical summaries (500–800 words), key topics, notable quotes, and timestamped index for a video.
+- **Parameters**:
+  - `url` (string, required): YouTube video URL or 11-character video ID.
+  - `language` (string, default="en"): Expected spoken language code.
+
+### 6. `youtube_ask_video`
+- **Purpose**: Answers deep, specific questions directly from video content with structured evidence quotes and timestamp links.
+- **Parameters**:
+  - `url` (string, required): YouTube video URL or 11-character video ID.
+  - `query` (string, required): Focus question to answer from video content.
+  - `language` (string, default="en"): Video spoken language code.
+
+### 7. `youtube_extract_recommendations`
+- **Purpose**: Extracts explicit and implicit recommendations, actions, stance, conviction level, risks, alternatives, and timestamped citations.
+- **Parameters**:
+  - `url` (string, required): YouTube video URL or 11-character video ID.
+  - `domain_hint` (string, default="general"): Domain context (e.g. `finance`, `software`, `health`).
+  - `language` (string, default="en"): Video spoken language code.
+
+### 8. `youtube_extract_claims`
+- **Purpose**: Deconstructs a video into falsifiable claims vs subjective opinions, with categorization and verification guidance.
+- **Parameters**:
+  - `url` (string, required): YouTube video URL or 11-character video ID.
+  - `topic_filter` (string, optional): Specific topic or assertion to filter claims on.
+  - `language` (string, default="en"): Video spoken language code.
+
+### 9. `youtube_evaluate_fit`
+- **Purpose**: Evaluates video relevance (0–100 score) against user constraints and outputs matching points, caveats, and tailored action items.
+- **Parameters**:
+  - `url` (string, required): YouTube video URL or 11-character video ID.
+  - `user_profile` (string, required): User background, constraints, portfolio, or goals.
+  - `decision_context` (string, default="general"): Specific decision context.
+  - `language` (string, default="en"): Video spoken language code.
+
+### 10. `youtube_compare_videos`
+- **Purpose**: Synthesizes 2 to 5 videos to reveal areas of consensus, a dimensional disagreement matrix with root causes, and a decision playbook.
+- **Parameters**:
+  - `urls` (array of strings, required, min=2, max=5): List of YouTube video URLs to compare.
+  - `topic` (string, required): Focus topic for cross-video synthesis.
+  - `language` (string, default="en"): Video spoken language code.
+
+## MCP Prompts
+- `youtube_creator_research`: Workflow template for metadata-first creator investigation.
+- `video_analysis`: Workflow template for question-answering with timestamp citations.
+
+## MCP Resources
+- `youtube://channels/{channel_id}/info`: Live JSON channel metadata.
+- `youtube://videos/{video_id}/metadata`: Live JSON video metadata.
+
+## Quickstart
+```bash
+git clone https://github.com/mbettan/tubelens-oss.git
+cd tubelens-oss
+cp .env.example .env
+uv sync
+uv run python -m src.server
+```
+
+## Links & Full Documentation
+- Full Documentation: https://mbettan.github.io/tubelens-oss/
+- Full LLM Reference: https://mbettan.github.io/tubelens-oss/llms-full.txt
+- GitHub Repository: https://github.com/mbettan/tubelens-oss
+- License: Apache 2.0 (Open Source)

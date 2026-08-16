@@ -1,0 +1,31 @@
+# TubeLens OSS — ChatGPT Custom GPT / Actions Configuration
+# Use with ChatGPT's "Add Actions" feature or GPT Builder
+
+openapi: "3.1.0"
+info:
+  title: "TubeLens OSS"
+  description: >
+    YouTube research MCP server for AI-powered video analysis, metadata extraction,
+    and rights-gated transcription. Connect to the MCP endpoint at /mcp for full
+    tool access.
+  version: "1.0.0"
+
+servers:
+  - url: "https://your-cloud-run-url.run.app"
+    description: "Production Cloud Run deployment"
+
+# Note: ChatGPT Actions connect to TubeLens via the MCP /mcp endpoint.
+# This file documents the available tools for GPT Builder configuration.
+# For direct MCP integration, point your client to: https://your-url/mcp
+
+# Available MCP Tools:
+# - youtube_extract_recommendations: Structured decisions, stance, conviction, risks, alternatives
+# - youtube_extract_claims: Verifiable claims vs opinions with verification guidance
+# - youtube_evaluate_fit: Personalized relevance score 0-100 & custom action items
+# - youtube_compare_videos: Cross-video consensus & disagreement matrix with root causes
+# - youtube_ask_video: Ephemeral deep Q&A with evidence citations (no raw transcripts)
+# - youtube_analyze_video: AI summary + excerpts (default overview)
+# - youtube_resolve_channel: Resolve channel handle/name/URL
+# - youtube_list_channel_videos: Browse channel video catalog
+# - youtube_list_playlist_videos: Enumerate playlist videos
+# - youtube_get_videos: Batch metadata for video IDs

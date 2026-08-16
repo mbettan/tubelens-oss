@@ -1,0 +1,144 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1200 630" width="1200" height="630">
+  <defs>
+    <!-- Background Gradient -->
+    <linearGradient id="bg" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#14050a" />
+      <stop offset="50%" stop-color="#0a0204" />
+      <stop offset="100%" stop-color="#050102" />
+    </linearGradient>
+
+    <!-- Ambient Glow Left -->
+    <radialGradient id="glowLeft" cx="25%" cy="50%" r="50%">
+      <stop offset="0%" stop-color="#ff1744" stop-opacity="0.25" />
+      <stop offset="50%" stop-color="#e11d48" stop-opacity="0.08" />
+      <stop offset="100%" stop-color="#000000" stop-opacity="0" />
+    </radialGradient>
+
+    <!-- Ambient Glow Right -->
+    <radialGradient id="glowRight" cx="80%" cy="20%" r="60%">
+      <stop offset="0%" stop-color="#fb7185" stop-opacity="0.12" />
+      <stop offset="100%" stop-color="#000000" stop-opacity="0" />
+    </radialGradient>
+
+    <!-- Crimson Gradient -->
+    <linearGradient id="crimsonGrad" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#ff1744" />
+      <stop offset="50%" stop-color="#f43f5e" />
+      <stop offset="100%" stop-color="#fb923c" />
+    </linearGradient>
+
+    <!-- Play-Prism Gradient -->
+    <linearGradient id="prismGrad" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#ffffff" />
+      <stop offset="35%" stop-color="#ff2a55" />
+      <stop offset="100%" stop-color="#e11d48" />
+    </linearGradient>
+
+    <!-- Card Background -->
+    <linearGradient id="cardBg" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#240c14" stop-opacity="0.8" />
+      <stop offset="100%" stop-color="#120408" stop-opacity="0.9" />
+    </linearGradient>
+
+    <filter id="blurGlow" x="-20%" y="-20%" width="140%" height="140%">
+      <feGaussianBlur stdDeviation="6" result="blur" />
+      <feComposite in="SourceGraphic" in2="blur" operator="over" />
+    </filter>
+  </defs>
+
+  <style>
+    .title { font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif; font-weight: 800; font-size: 64px; fill: #ffffff; letter-spacing: -0.02em; }
+    .badge { font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif; font-weight: 700; font-size: 20px; fill: #ff1744; letter-spacing: 0.05em; }
+    .subtitle { font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif; font-weight: 500; font-size: 26px; fill: #fda4af; line-height: 1.4; }
+    .tag { font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif; font-weight: 600; font-size: 16px; fill: #ffe4e6; }
+    .footer-text { font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif; font-weight: 500; font-size: 15px; fill: #9f1239; }
+  </style>
+
+  <!-- Background Base -->
+  <rect width="1200" height="630" fill="url(#bg)" />
+  <rect width="1200" height="630" fill="url(#glowLeft)" />
+  <rect width="1200" height="630" fill="url(#glowRight)" />
+
+  <!-- Subtle Outer Border -->
+  <rect x="20" y="20" width="1160" height="590" rx="24" fill="none" stroke="rgba(244, 63, 94, 0.2)" stroke-width="1.5" />
+
+  <!-- LEFT: Large Hero Optical Aperture Logo -->
+  <g transform="translate(140, 165)">
+    <!-- Badge Container -->
+    <rect x="0" y="0" width="300" height="300" rx="75" fill="url(#cardBg)" stroke="rgba(255, 23, 68, 0.4)" stroke-width="3" filter="url(#blurGlow)" />
+
+    <!-- Outer Concentric Reticle -->
+    <circle cx="150" cy="150" r="110" fill="none" stroke="url(#crimsonGrad)" stroke-width="5" stroke-dasharray="140 20 30 20 60 20" />
+    
+    <!-- Calibration Ticks -->
+    <path d="M150 20 L150 40 M150 260 L150 280 M20 150 L40 150 M260 150 L280 150" stroke="#ff4d6d" stroke-width="4" stroke-linecap="round" opacity="0.9" />
+    <path d="M60 60 L75 75 M225 225 L240 240 M60 240 L75 225 M225 75 L240 60" stroke="#f43f5e" stroke-width="3" stroke-linecap="round" opacity="0.5" />
+
+    <!-- Mid Ring -->
+    <circle cx="150" cy="150" r="80" fill="none" stroke="#e11d48" stroke-width="3" stroke-dasharray="8 12" opacity="0.6" />
+
+    <!-- Iris Blades -->
+    <path d="M150 80 C175 80 200 95 210 115 L150 130 Z" fill="#9f1239" opacity="0.8" stroke="#ff2a55" stroke-width="2" />
+    <path d="M210 115 C220 140 215 170 200 190 L160 155 Z" fill="#9f1239" opacity="0.8" stroke="#ff2a55" stroke-width="2" />
+    <path d="M200 190 C180 210 150 220 125 210 L140 150 Z" fill="#9f1239" opacity="0.8" stroke="#ff2a55" stroke-width="2" />
+    <path d="M125 210 C100 205 80 185 75 160 L130 140 Z" fill="#9f1239" opacity="0.8" stroke="#ff2a55" stroke-width="2" />
+    <path d="M75 160 C75 130 90 105 110 90 L135 150 Z" fill="#9f1239" opacity="0.8" stroke="#ff2a55" stroke-width="2" />
+    <path d="M110 90 C130 75 160 75 180 90 L150 150 Z" fill="#9f1239" opacity="0.8" stroke="#ff2a55" stroke-width="2" />
+
+    <!-- Inner Aperture Ring -->
+    <circle cx="150" cy="150" r="50" fill="none" stroke="url(#crimsonGrad)" stroke-width="4" />
+
+    <!-- Central Video Focus Prism (Integrated Play-Lens Mark) -->
+    <polygon points="135,115 185,150 135,185" fill="url(#prismGrad)" stroke="#ffffff" stroke-width="2.5" stroke-linejoin="round" />
+    <circle cx="150" cy="150" r="7" fill="#ffffff" />
+
+    <!-- Crosshair Marks -->
+    <path d="M150 100 L150 108 M150 192 L150 200 M100 150 L108 150 M192 150 L200 150" stroke="#ffffff" stroke-width="3" stroke-linecap="round" opacity="0.9" />
+  </g>
+
+  <!-- RIGHT: Typography & Feature Highlights -->
+  <g transform="translate(500, 160)">
+    <!-- Header Badge -->
+    <g transform="translate(0, 0)">
+      <rect x="0" y="0" width="80" height="32" rx="8" fill="rgba(255, 23, 68, 0.15)" stroke="rgba(255, 23, 68, 0.4)" stroke-width="1.5" />
+      <text x="18" y="22" class="badge">OSS</text>
+    </g>
+
+    <!-- Title -->
+    <text x="96" y="27" class="title">TubeLens</text>
+
+    <!-- Subtitle -->
+    <text x="0" y="80" class="subtitle">AI Video Intelligence &amp; YouTube Research MCP Server</text>
+    <text x="0" y="115" class="subtitle" font-size="20" fill="#fda4af" opacity="0.85">Powered by Google Gemini 3.7 Flash • 100% In-Cloud &amp; Stateless</text>
+
+    <!-- Feature Pills Grid -->
+    <g transform="translate(0, 160)">
+      <!-- Pill 1 -->
+      <g transform="translate(0, 0)">
+        <rect x="0" y="0" width="270" height="42" rx="10" fill="rgba(255, 23, 68, 0.1)" stroke="rgba(244, 63, 94, 0.25)" stroke-width="1" />
+        <text x="18" y="26" class="tag">⚡ Zero Local Downloads</text>
+      </g>
+
+      <!-- Pill 2 -->
+      <g transform="translate(290, 0)">
+        <rect x="0" y="0" width="280" height="42" rx="10" fill="rgba(255, 23, 68, 0.1)" stroke="rgba(244, 63, 94, 0.25)" stroke-width="1" />
+        <text x="18" y="26" class="tag">🎯 Timestamped Citations</text>
+      </g>
+
+      <!-- Pill 3 -->
+      <g transform="translate(0, 56)">
+        <rect x="0" y="0" width="270" height="42" rx="10" fill="rgba(255, 23, 68, 0.1)" stroke="rgba(244, 63, 94, 0.25)" stroke-width="1" />
+        <text x="18" y="26" class="tag">📊 Decision &amp; Claim Extraction</text>
+      </g>
+
+      <!-- Pill 4 -->
+      <g transform="translate(290, 56)">
+        <rect x="0" y="0" width="280" height="42" rx="10" fill="rgba(255, 23, 68, 0.1)" stroke="rgba(244, 63, 94, 0.25)" stroke-width="1" />
+        <text x="18" y="26" class="tag">🛡️ RFC 6749 OAuth 2.0 Auth</text>
+      </g>
+    </g>
+
+    <!-- Footer Meta -->
+    <text x="0" y="300" class="footer-text">Claude • ChatGPT • Cursor • Antigravity • FastMCP • Apache-2.0</text>
+  </g>
+</svg>
